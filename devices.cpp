@@ -101,8 +101,8 @@ void devices::ping_all() {
 
     int c = 0;
     for (pingobj_iter_t *iter = ping_iterator_get (pinger);
-         iter != NULL;
-         iter = ping_iterator_next(iter)) {
+            iter != NULL;
+            iter = ping_iterator_next(iter)) {
 
         double latency;
         size_t latency_size = sizeof(latency);
