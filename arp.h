@@ -31,7 +31,7 @@ public:
     arp();
     void rescan();
     char* find_ip_addr(char* hw_addr);
-    void dump();
+    void dump(int fd);
 private:
     std::vector<arp_table_entry> entries;
 };

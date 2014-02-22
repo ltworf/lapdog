@@ -22,6 +22,9 @@
 
 #include "arp.h"
 
+/**
+ * Automatically does rescan
+ **/
 arp::arp() {
     this->rescan();
 }
@@ -85,11 +88,11 @@ cleanup:
 }
 
 /**
- * Dumps on stdout a printout of the current internal copy
+ * Dumps on fd a printout of the current internal copy
  * of the ARP table.
  **/
-void arp::dump() {
-    printf("ARP table\n");
-    for (int i=0; i<this->entries.size(); i++)
-        printf("%s\t%s\n", this->entries[i].get_ip_addr(),this->entries[i].get_hw_addr());
+void arp::dump(int fd) {
+    dprintf(fd, "ARP table\n");
+    for (int i=0; i < this->entries.size(); i++)
+        dprintf(fd, "%s\t%s\n", this->entries[i].get_ip_addr(),this->entries[i].get_hw_addr());
 }
