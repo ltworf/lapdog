@@ -108,6 +108,7 @@ char *device::get_hw_addr() {
 void device::missed() {
     if (this->count == this->max_misses) {
         advsystem(uid, gid, on_disappear_action.c_str());
+        this->count ++;
     } else if (this->count < this->max_misses) {
         this->count ++;
     }
