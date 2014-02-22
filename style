@@ -1,2 +1,2 @@
 #!/bin/sh
-astyle --indent=spaces=4 -a *.c *.h
+astyle --indent=spaces=4 -a *.cpp *.h
