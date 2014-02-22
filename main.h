@@ -1,5 +1,5 @@
 /*
- * <one line to give the program's name and a brief idea of what it does.>
+ * lapdog - take actions on devices (dis)appearance on the LAN
  * Copyright (C) 2014  Salvo Tomaselli <tiposchi@tiscali.it>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,26 +17,10 @@
  *
  */
 
-#ifndef CONFIGURATION_H
-#define CONFIGURATION_H
+#ifndef LAPDOG_MAIN_H
+#define LAPDOG_MAIN_H
 
-#define CONF_FILE "/etc/lapdog.conf"
-#define CONF_STATUS_DUMP_FILE "/run/lapd.dump"
+#define SIGL_RELOAD 1
+#define SIGL_DUMP 2
 
-class configuration {
-public:
-    static configuration *getconfig();
-
-    char* lower_range;
-    char* higher_range;
-
-    char* confdir;
-
-    int sleep_time;
-
-private:
-    configuration();
-    ~configuration();
-};
-
-#endif // CONFIGURATION_H
+#endif
