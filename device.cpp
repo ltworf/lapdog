@@ -17,14 +17,17 @@
  *
  */
 
+#include <sys/types.h>
 #include <fstream>
 #include <iostream>
+#include <pwd.h>
 #include <sstream>
 #include <stdlib.h>
 #include <string>
 #include <string.h>
 #include <syslog.h>
 
+#include "advsystem.h"
 #include "device.h"
 
 /**
@@ -36,6 +39,8 @@ device::device(const char* conffile) {
     this->count=0;
     this->max_misses = 10;
     this->hw_addr[0] = 0;
+    this->uid = 0;
+    this->gid = 0;
 
     this->config = configuration::getconfig();
     std::string line;
@@ -72,6 +77,14 @@ device::device(const char* conffile) {
             this->count = strtol(value.c_str(),NULL,10);
         } else if (key=="max_misses") {
             this->max_misses = strtol(value.c_str(),NULL,10);
+        } else if (key=="uid") {
+            this->uid = strtol(value.c_str(),NULL,10);
+        } else if (key=="gid") {
+            this->gid = strtol(value.c_str(),NULL,10);
+        } else if (key=="user") {
+            struct passwd * p = getpwnam(value.c_str());
+            this->uid = p->pw_uid;
+            this->gid = p->pw_gid;
         }
     }
 
@@ -94,7 +107,7 @@ char *device::get_hw_addr() {
  **/
 void device::missed() {
     if (this->count == this->max_misses) {
-        system(this->on_disappear_action.c_str());
+        advsystem(uid, gid, on_disappear_action.c_str());
     } else if (this->count < this->max_misses) {
         this->count ++;
     }
@@ -105,7 +118,7 @@ void device::missed() {
  **/
 void device::responded() {
     if (this->count > 0) {
-        system(this->on_appear_action.c_str());
+        advsystem(uid, gid, on_appear_action.c_str());
     }
     this->count = 0;
 }

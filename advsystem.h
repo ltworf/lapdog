@@ -17,29 +17,9 @@
  *
  */
 
-#ifndef DEVICE_H
-#define DEVICE_H
+#ifndef LAPDOG_ADVSYSTEM_H
+#define LAPDOG_ADVSYSTEM_H
 
-#include <string>
+void advsystem(int uid,int gid, const char* command);
 
-#include "configuration.h"
-
-class device {
-public:
-    device(const char* conffile);
-    char * get_hw_addr();
-    void missed();
-    void responded();
-    void dump(int fd);
-private:
-    std::string on_appear_action;
-    std::string on_disappear_action;
-    int count;
-    int max_misses;
-    int uid;
-    int gid;
-    char hw_addr[18];
-    configuration *config;
-};
-
-#endif // DEVICE_H
+#endif
