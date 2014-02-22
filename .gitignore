@@ -11,4 +11,5 @@
 *.lai
 *.la
 *.a
+*.orig
 build/
