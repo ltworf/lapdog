@@ -20,6 +20,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <string.h>
 #include <syslog.h>
 #include <unistd.h>
 
@@ -29,6 +30,9 @@
  * Same as system(3) but detaches and changes the uid
  **/
 void advsystem(int uid, int gid, const char* command) {
+    if (strlen(command)==0)
+        return;
+
     int status;
     pid_t pid = fork();
     if (pid<0) {
