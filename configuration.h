@@ -20,6 +20,8 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
+#define CONF_FILE "/etc/lapdog.conf"
+
 class configuration {
 public:
     static configuration *getconfig();
@@ -33,6 +35,7 @@ public:
 
 private:
     configuration();
+    ~configuration();
 };
 
 #endif // CONFIGURATION_H
