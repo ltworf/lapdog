@@ -25,6 +25,7 @@ public:
     arp_table_entry(char* ip_addr,char* hw_addr);
     bool has_hw_addr(char* hw_addr);
     char* get_ip_addr();
+    char* get_hw_addr();
 private:
     char ip_addr[16];
     char hw_addr[18];

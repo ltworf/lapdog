@@ -33,3 +33,7 @@ bool arp_table_entry::has_hw_addr(char* hw_addr) {
 char* arp_table_entry::get_ip_addr() {
     return this->ip_addr;
 }
+
+char *arp_table_entry::get_hw_addr() {
+    return this->hw_addr;
+}

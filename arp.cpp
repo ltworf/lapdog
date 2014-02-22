@@ -18,6 +18,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "arp.h"
 
@@ -56,6 +57,7 @@ void arp::rescan() {
     char dev[100];
     int type, flags;
     int num;
+    char empty[] = "00:00:00:00:00:00";
 
     entries.clear();
 
@@ -67,10 +69,12 @@ void arp::rescan() {
 
     for (; fgets(line, sizeof(line), file);) {
         num = sscanf(line, "%s 0x%x 0x%x %100s %100s %100s\n",
-             ip, &type, &flags, hwa, mask, dev
-        );
+                     ip, &type, &flags, hwa, mask, dev
+                    );
         if (num < 4)
-            break;
+            continue;
+        if (strncmp(hwa, empty, sizeof(empty)) == 0)
+            continue;
 
         arp_table_entry new_entry = arp_table_entry(ip,hwa);
         entries.push_back(new_entry);
@@ -80,4 +84,12 @@ cleanup:
     fclose(file);
 }
 
-
+/**
+ * Dumps on stdout a printout of the current internal copy
+ * of the ARP table.
+ **/
+void arp::dump() {
+    printf("ARP table\n");
+    for (int i=0; i<this->entries.size(); i++)
+        printf("%s\t%s\n", this->entries[i].get_ip_addr(),this->entries[i].get_hw_addr());
+}
