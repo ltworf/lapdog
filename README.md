@@ -14,11 +14,18 @@ Needs to run as root to be able to send ICMP packets.
 
 Compile
 =======
-Lapdog uses cmake to build.
+lapdog uses cmake to build.
 
 ```
 mkdir build
 cd build
 cmake ..
 make
+make install
 ```
+
+Signals
+=======
+- SIGHUP will cause a reload of the configuration
+- SIGUSR1 will cause a dump of the internal state to be stored in
+  `/run/lapdog.dump`
