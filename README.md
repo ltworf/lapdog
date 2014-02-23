@@ -11,7 +11,6 @@ MAC address and not their IP, so it works on networks with DHCP.
 
 Needs to run as root to be able to send ICMP packets.
 
-
 Compile
 =======
 lapdog uses cmake to build.
@@ -21,7 +20,7 @@ mkdir build
 cd build
 cmake ..
 make
-make install
+su -c "make install"
 ```
 
 Signals

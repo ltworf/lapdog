@@ -58,11 +58,11 @@ configuration::configuration() {
             confdir = new char [value.length()+1];
             std::strcpy (confdir, value.c_str());
         } else if (key=="lower_range") {
-            confdir = new char [value.length()+1];
-            std::strcpy (confdir, value.c_str());
+            lower_range = new char [value.length()+1];
+            std::strcpy (lower_range, value.c_str());
         } else if (key=="higher_range") {
-            confdir = new char [value.length()+1];
-            std::strcpy (confdir, value.c_str());
+            higher_range = new char [value.length()+1];
+            std::strcpy (higher_range, value.c_str());
         } else if (key=="sleep_time") {
             sleep_time = strtol(value.c_str(),NULL,10);
         }

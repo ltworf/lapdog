@@ -69,6 +69,7 @@ int main(int argc, char **argv) {
                 devs.load_config();
             if (signals & SIGL_DUMP)
                 dump_status();
+
             signals = 0;
         } else
             devs.ping_all();

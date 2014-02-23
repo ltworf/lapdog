@@ -1,0 +1,63 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          lapdog
+# Required-Start:    $local_fs $remote_fs $network
+# Required-Stop:     $local_fs $remote_fs $network
+# Should-Start:      $syslog
+# Should-Stop:       $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Starts or stops the lapdog daemon.
+# Description:       Starts and stops lapdog, a LAN device presence checker
+### END INIT INFO
+
+# clear poisonned environment
+unset TMPDIR
+
+NAME=lapdog
+DAEMON=/usr/sbin/$NAME
+PIDFILE=/run/$NAME.pid
+
+test -x "$DAEMON" || exit 0
+
+test -e /etc/default/$NAME && . /etc/default/$NAME
+
+. /lib/lsb/init-functions
+
+case "$1" in
+    start)
+        log_daemon_msg "Starting $NAME" "$NAME"
+        start-stop-daemon --pidfile "$PIDFILE" --start --quiet --background -m --exec "$DAEMON"
+        log_end_msg $?
+        ;;
+    stop)
+        log_daemon_msg "Stopping $NAME" "$NAME"
+        start-stop-daemon --pidfile "$PIDFILE" --stop --signal 3 --quiet --oknodo --exec "$DAEMON"
+        log_end_msg $?
+        rm -f $PIDFILE
+        ;;
+    reload)
+        log_daemon_msg "Reloading internet superserver configuration" "$NAME"
+        start-stop-daemon --pidfile "$PIDFILE" --stop --signal 1 --quiet --oknodo --exec "$DAEMON"
+        log_end_msg $?
+        ;;
+    restart|force-reload)
+        $0 stop
+        $0 start
+        ;;
+    status)
+        status_of_proc -p "$PIDFILE" "$DAEMON"
+        R=$?
+        if test "$R" = "0" ; then
+            kill -10 $(cat "$PIDFILE")
+            test -e /run/lapdog.dump && cat /run/lapdog.dump && rm /run/lapdog.dump
+        fi
+        exit $R
+        ;;
+    *)
+        echo "Usage: service $NAME {start|stop|reload|force-reload|restart|status}"
+        exit 1
+        ;;
+esac
+
+exit 0
