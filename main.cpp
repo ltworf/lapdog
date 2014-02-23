@@ -31,7 +31,7 @@
 
 devices devs;
 
-unsigned int signals = 0;
+volatile unsigned int signals = 0;
 
 void reload_signal(int _) {
     signals = signals | SIGL_RELOAD;
@@ -42,12 +42,14 @@ void dump_signal(int _) {
 }
 
 void dump_status() {
-    int fd = open(CONF_STATUS_DUMP_FILE, O_WRONLY);
-    if (fd < 0 ) {
+    devs.dump(1);
+
+    int fd = open(CONF_STATUS_DUMP_FILE, O_WRONLY | O_CREAT, S_IRUSR | S_IRGRP | S_IROTH);
+    if (fd == -1) {
         syslog(LOG_ERR,"Can't write status on " CONF_STATUS_DUMP_FILE);
         return;
     }
-    devs.dump(1);
+
     devs.dump(fd);
     close(fd);
 }

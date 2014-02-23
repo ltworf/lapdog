@@ -21,7 +21,7 @@
 #define CONFIGURATION_H
 
 #define CONF_FILE "/etc/lapdog.conf"
-#define CONF_STATUS_DUMP_FILE "/run/lapd.dump"
+#define CONF_STATUS_DUMP_FILE "/run/lapdog.dump"
 
 class configuration {
 public:
