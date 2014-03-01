@@ -119,7 +119,7 @@ void device::missed() {
  * The device responded to a ping
  **/
 void device::responded() {
-    if (this->count > 0) {
+    if (this->count == this->max_misses+1) {
         syslog(LOG_INFO, "%s appeared, running action", hw_addr);
         advsystem(uid, gid, on_appear_action.c_str());
     }
