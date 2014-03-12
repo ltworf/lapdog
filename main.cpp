@@ -31,14 +31,14 @@
 
 devices devs;
 
-volatile unsigned int signals = 0;
+unsigned int signals = 0;
 
 void reload_signal(int _) {
-    signals = signals | SIGL_RELOAD;
+    __sync_fetch_and_or(&signals,SIGL_RELOAD);
 }
 
 void dump_signal(int _) {
-    signals |= SIGL_DUMP;
+    __sync_fetch_and_or(&signals,SIGL_DUMP);
 }
 
 void dump_status() {
@@ -63,14 +63,14 @@ int main(int argc, char **argv) {
     while(true) {
         sleep(config->sleep_time);
 
-        //Check the mask for signals occurred
-        if (signals != 0) {
-            if (signals & SIGL_RELOAD)
-                devs.load_config();
-            if (signals & SIGL_DUMP)
-                dump_status();
+        unsigned int signals_occurred = __sync_fetch_and_and(&signals,0);
 
-            signals = 0;
+        //Check the mask for signals occurred
+        if (signals_occurred != 0) {
+            if (signals_occurred & SIGL_RELOAD)
+                devs.load_config();
+            if (signals_occurred & SIGL_DUMP)
+                dump_status();
         } else
             devs.ping_all();
     }
