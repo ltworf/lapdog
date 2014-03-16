@@ -129,7 +129,6 @@ cleanup:
 }
 
 void devices::dump(int fd) {
-    this->arp_table->dump(fd);
     dprintf(fd, "Configured devices\n");
     for (int i = 0; i < this->devices_list.size(); i++)
         this->devices_list[i].dump(fd);
