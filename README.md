@@ -13,7 +13,7 @@ Needs to run as root to be able to send ICMP packets.
 
 Compile
 =======
-lapdog uses cmake to build.
+lapdog uses cmake to build and depends upon liboping.
 
 ```
 mkdir build
@@ -22,6 +22,15 @@ cmake ..
 make
 su -c "make install"
 ```
+
+It will install `/etc/init.d/lapdog` too.
+
+Configuration
+=============
+Main configuration file is in `/etc/lapdog.conf`.
+A directory called `/etc/lapdog` is used to hold the configuration files
+for the various devices. See in the directory `doc` for details on the
+configuration.
 
 Signals
 =======
