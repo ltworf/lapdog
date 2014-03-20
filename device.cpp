@@ -29,6 +29,9 @@
 
 #include "advsystem.h"
 #include "device.h"
+#include "split.h"
+
+using namespace std;
 
 /**
  * Creates a new device object starting
@@ -43,7 +46,7 @@ device::device(const char* conffile) {
     this->gid = 0;
 
     this->config = configuration::getconfig();
-    std::string line;
+
 
     this->count = 0;
 
@@ -53,19 +56,20 @@ device::device(const char* conffile) {
     }
     std::istream is(&fb);
 
-    while (std::getline(is,line)) {
-        std::istringstream lines(line);
+    vector<string> lines = split(is,'\n',0);
+
+    for (int i=0;i<lines.size();i++) {
+        std::string line = lines[i];
 
         if (line[0] == '#')
             continue;
         else if (line.size() == 0)
             continue;
 
-        std::string key;
-        std::string value;
+        vector<string> key_value = split(line,'=',2);
 
-        std::getline(lines,key,'=');
-        std::getline(lines,value,'=');
+        string key = key_value[0];
+        string value = key_value[1];
 
         if (key=="hw") {
             strncpy(this->hw_addr, value.c_str(), sizeof(this->hw_addr));

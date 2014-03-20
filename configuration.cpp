@@ -25,6 +25,10 @@
 
 #include "configuration.h"
 
+#include "split.h"
+
+using namespace std;
+
 configuration::configuration() {
 
     lower_range = "10.0.0.1";
@@ -32,7 +36,6 @@ configuration::configuration() {
     confdir = "/etc/lapdog";
     sleep_time = 10;
 
-    std::string line;
     std::filebuf fb;
     if (not fb.open(CONF_FILE, std::ios::in)) {
         return;
@@ -40,20 +43,21 @@ configuration::configuration() {
     syslog(LOG_INFO, "Loading configuration from " CONF_FILE);
     std::istream is(&fb);
 
-    while (std::getline(is,line)) {
-        std::istringstream lines(line);
+    vector<string> lines = split(is,'\n',0);
+
+    for(int i=0;i<lines.size();i++) {
+        string line = lines[i];
 
         if (line[0] == '#')
             continue;
         else if (line.size() == 0)
             continue;
 
-        std::string key;
-        std::string value;
+        vector<string> key_value = split(line,'=',2);
 
-        std::getline(lines,key,'=');
-        std::getline(lines,value,'=');
-
+        std::string key = key_value[0];
+        std::string value = key_value[1];
+        
         if (key=="confdir") {
             confdir = new char [value.length()+1];
             std::strcpy (confdir, value.c_str());
