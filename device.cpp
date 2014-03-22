@@ -58,7 +58,7 @@ device::device(const char* conffile) {
 
     vector<string> lines = split(is,'\n',0);
 
-    for (int i=0;i<lines.size();i++) {
+    for (int i=0; i<lines.size(); i++) {
         std::string line = lines[i];
 
         if (line[0] == '#')

@@ -45,7 +45,7 @@ configuration::configuration() {
 
     vector<string> lines = split(is,'\n',0);
 
-    for(int i=0;i<lines.size();i++) {
+    for(int i=0; i<lines.size(); i++) {
         string line = lines[i];
 
         if (line[0] == '#')
@@ -57,7 +57,7 @@ configuration::configuration() {
 
         std::string key = key_value[0];
         std::string value = key_value[1];
-        
+
         if (key=="confdir") {
             confdir = new char [value.length()+1];
             std::strcpy (confdir, value.c_str());
