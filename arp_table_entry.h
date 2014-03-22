@@ -20,15 +20,18 @@
 #ifndef ARP_TABLE_ENTRY_H
 #define ARP_TABLE_ENTRY_H
 
+#include "hwaddr.h"
+
 class arp_table_entry {
 public:
-    arp_table_entry(char* ip_addr,char* hw_addr);
-    bool has_hw_addr(char* hw_addr);
-    char* get_ip_addr();
-    char* get_hw_addr();
+    arp_table_entry(const char* ip_addr,const char* hw_addr);
+    ~arp_table_entry();
+    bool has_hw_addr(const char* hw_addr);
+    const char* get_ip_addr();
+    const char* get_hw_addr();
 private:
     char ip_addr[16];
-    char hw_addr[18];
+    hwaddr *hw_addr;
 };
 
 #endif // ARP_TABLE_ENTRY_H

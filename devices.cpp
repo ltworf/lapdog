@@ -83,7 +83,7 @@ void devices::ping_all() {
 
     //Prepare the list of hosts to ping
     for (int i=0; i<this->devices_list.size(); i++) {
-        char* ip = this->arp_table->find_ip_addr(this->devices_list[i].get_hw_addr());
+        const char* ip = this->arp_table->find_ip_addr(this->devices_list[i].get_hw_addr());
 
         if (ip == NULL) {
             devices_list[i].missed();

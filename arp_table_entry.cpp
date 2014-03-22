@@ -21,19 +21,24 @@
 
 #include "arp_table_entry.h"
 
-arp_table_entry::arp_table_entry(char* ip_addr,char* hw_addr) {
-    strncpy(this->hw_addr,hw_addr,sizeof(this->hw_addr));
+arp_table_entry::arp_table_entry(const char* ip_addr,const char* hw_addr) {
+    this->hw_addr = new hwaddr(hw_addr);
     strncpy(this->ip_addr,ip_addr,sizeof(this->ip_addr));
 }
 
-bool arp_table_entry::has_hw_addr(char* hw_addr) {
-    return strcmp(this->hw_addr,hw_addr)==0;
+arp_table_entry::~arp_table_entry() {
+    delete this->hw_addr;
 }
 
-char* arp_table_entry::get_ip_addr() {
+
+bool arp_table_entry::has_hw_addr(const char* hw_addr) {
+    return this->hw_addr->is_equal(hw_addr);
+}
+
+const char* arp_table_entry::get_ip_addr() {
     return this->ip_addr;
 }
 
-char *arp_table_entry::get_hw_addr() {
-    return this->hw_addr;
+const char *arp_table_entry::get_hw_addr() {
+    return this->hw_addr->strrepr().c_str();
 }

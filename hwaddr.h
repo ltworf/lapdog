@@ -1,5 +1,5 @@
 /*
- * lapdog - take actions on devices (dis)appearance on the LAN
+ * <one line to give the program's name and a brief idea of what it does.>
  * Copyright (C) 2014  Salvo Tomaselli <tiposchi@tiscali.it>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,23 @@
  *
  */
 
-#ifndef ARP_H
-#define ARP_H
+#ifndef HWADDR_H
+#define HWADDR_H
 
-#include <vector>
+#include <string>
+#include <stdint.h>
 
-#include "arp_table_entry.h"
-
-#define ARP_TABLE_FILE "/proc/net/arp"
-
-class arp {
+class hwaddr {
 public:
-    arp();
-    void rescan();
-    const char* find_ip_addr(char* hw_addr);
-    void dump(int fd);
+    hwaddr(std::string& hw_addr);
+    hwaddr(const char* hw_addr);
+    bool operator==(const hwaddr &other);
+    bool is_equal(const char* hw_addr);
+    bool is_equal(const std::string hw_addr);
+    std::string strrepr();
 private:
-    std::vector<arp_table_entry> entries;
+    uint64_t addr;
+    uint64_t hwtoi(const std::string& hw_addr);
 };
 
-#endif // ARP_H
+#endif // HWADDR_H
