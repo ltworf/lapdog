@@ -37,8 +37,8 @@ using namespace std;
  * Creates a new device object starting
  * from a configuration file.
  **/
-device::device(const char* conffile) {
-
+device::device(const char* conffile, const char* name) {
+    this->name = string(name);
     this->count=0;
     this->max_misses = 10;
     this->hw_addr[0] = 0;
@@ -134,5 +134,5 @@ void device::responded() {
  * Prints the status on the given file descriptor
  **/
 void device::dump(int fd) {
-    dprintf(fd, "%s\tmissed: %d\tmax misses: %d\n", this->hw_addr, this->count,this->max_misses);
+    dprintf(fd, "%s (%s)\tmissed: %d\tmax misses: %d\n", this->name.c_str(), this->hw_addr, this->count,this->max_misses);
 }

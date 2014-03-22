@@ -29,6 +29,8 @@
 
 #include <iostream>
 
+using namespace std;
+
 
 devices::devices() {
     this->config = configuration::getconfig();
@@ -68,7 +70,7 @@ void devices::load_config() {
         std::string fname = std::string(config->confdir) + std::string("/") + std::string(dir_entry->d_name);
         syslog(LOG_INFO,"Loading configuration from %s", fname.c_str());
 
-        device dev = device(fname.c_str());
+        device dev = device(fname.c_str(),dir_entry->d_name);
         devices_list.push_back(dev);
     }
 

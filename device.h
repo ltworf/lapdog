@@ -26,7 +26,7 @@
 
 class device {
 public:
-    device(const char* conffile);
+    device(const char* conffile, const char* name);
     char * get_hw_addr();
     void missed();
     void responded();
@@ -34,6 +34,7 @@ public:
 private:
     std::string on_appear_action;
     std::string on_disappear_action;
+    std::string name;
     int count;
     int max_misses;
     int uid;

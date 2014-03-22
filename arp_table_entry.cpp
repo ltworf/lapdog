@@ -27,7 +27,8 @@ arp_table_entry::arp_table_entry(const char* ip_addr,const char* hw_addr) {
 }
 
 arp_table_entry::~arp_table_entry() {
-    delete this->hw_addr;
+    //FIXME     delete this->hw_addr;
+    //This causes a crash, for some unknown reason, but it's also a memory leak
 }
 
 
