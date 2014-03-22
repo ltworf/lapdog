@@ -51,7 +51,7 @@ vector<string> split(istream & t, char s, int l) {
     return tokens;
 }
 
-vector<string> split(string & t, char s, int l) {
+vector<string> split(const string & t, char s, int l) {
     istringstream streamed(t);
     return split(streamed,s,l);
 }
