@@ -31,7 +31,7 @@ public:
     const char* get_hw_addr();
 private:
     char ip_addr[16];
-    hwaddr *hw_addr;
+    hwaddr *hw_addr=NULL;
 };
 
 #endif // ARP_TABLE_ENTRY_H

@@ -38,7 +38,7 @@ arp::arp() {
  * This function only checks inside a copy of the table. run rescan() to
  * re-load the table from the kernel.
  **/
-const char* arp::find_ip_addr(char* hw_addr) {
+const char* arp::find_ip_addr(const char* hw_addr) {
     for (int i=0; i<entries.size(); i++) {
         if (entries[i].has_hw_addr(hw_addr))
             return entries[i].get_ip_addr();

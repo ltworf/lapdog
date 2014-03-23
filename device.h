@@ -23,11 +23,13 @@
 #include <string>
 
 #include "configuration.h"
+#include "hwaddr.h"
 
 class device {
 public:
     device(const char* conffile, const char* name);
-    char * get_hw_addr();
+    ~device();
+    const char * get_hw_addr();
     void missed();
     void responded();
     void dump(int fd);
@@ -39,7 +41,7 @@ private:
     int max_misses;
     int uid;
     int gid;
-    char hw_addr[18];
+    hwaddr *hw_addr=NULL;
     configuration *config;
 };
 

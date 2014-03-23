@@ -30,7 +30,7 @@ class arp {
 public:
     arp();
     void rescan();
-    const char* find_ip_addr(char* hw_addr);
+    const char* find_ip_addr(const char* hw_addr);
     void dump(int fd);
 private:
     std::vector<arp_table_entry> entries;

@@ -41,7 +41,6 @@ device::device(const char* conffile, const char* name) {
     this->name = string(name);
     this->count=0;
     this->max_misses = 10;
-    this->hw_addr[0] = 0;
     this->uid = 0;
     this->gid = 0;
 
@@ -72,7 +71,7 @@ device::device(const char* conffile, const char* name) {
         string value = key_value[1];
 
         if (key=="hw") {
-            strncpy(this->hw_addr, value.c_str(), sizeof(this->hw_addr));
+            this->hw_addr = new hwaddr(value);
         } else if (key=="on_appear_action") {
             this->on_appear_action = value;
         } else if (key=="on_disappear_action") {
@@ -99,11 +98,17 @@ device::device(const char* conffile, const char* name) {
     }
 }
 
+device::~device() {
+//     if (hw_addr!=NULL)
+//         delete hw_addr;
+}
+
+
 /**
  * Return the hw_address associated
  **/
-char *device::get_hw_addr() {
-    return this->hw_addr;
+const char *device::get_hw_addr() {
+    return this->hw_addr->strrepr().c_str();
 }
 
 /**
@@ -124,7 +129,7 @@ void device::missed() {
  **/
 void device::responded() {
     if (this->count == this->max_misses+1) {
-        syslog(LOG_INFO, "%s appeared, running action", hw_addr);
+        syslog(LOG_INFO, "%s appeared, running action", hw_addr->strrepr().c_str());
         advsystem(uid, gid, on_appear_action.c_str());
     }
     this->count = 0;
@@ -134,5 +139,11 @@ void device::responded() {
  * Prints the status on the given file descriptor
  **/
 void device::dump(int fd) {
-    dprintf(fd, "%s (%s)\tmissed: %d\tmax misses: %d\n", this->name.c_str(), this->hw_addr, this->count,this->max_misses);
+    dprintf(fd,
+            "%s (%s)\tmissed: %d\tmax misses: %d\n",
+            this->name.c_str(),
+            this->hw_addr->strrepr().c_str(),
+            this->count,
+            this->max_misses
+           );
 }
