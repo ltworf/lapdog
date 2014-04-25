@@ -42,8 +42,12 @@ void advsystem(int uid, int gid, const char* command) {
 
     if (pid == 0) {
         //Child, fork again
-        setuid(uid);
-        setgid(gid);
+
+        if (setuid(uid) != 0 or setgid(gid) != 0) {
+            syslog(LOG_ERR,"Set permissions failed");
+            exit(1);
+        }
+
         pid = fork();
         if (pid<0) {
             syslog(LOG_ERR,"Detach fork failed");
