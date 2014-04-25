@@ -32,6 +32,7 @@ public:
     void missed();
     void responded();
     void dump(int fd);
+    bool present();
 private:
     std::string on_appear_action;
     std::string on_disappear_action;

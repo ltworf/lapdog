@@ -129,14 +129,27 @@ void device::responded() {
     this->count = 0;
 }
 
+
+/**
+ * Returns true if the device is present.
+ *
+ * It uses the latest available data, will not
+ * generate new pings.
+ **/
+bool device::present() {
+    return this->count < this->max_misses;
+}
+
+
 /**
  * Prints the status on the given file descriptor
  **/
 void device::dump(int fd) {
     dprintf(fd,
-            "%s (%s)\tmissed: %d\tmax misses: %d\n",
+            "%s (%s)\t%s\tmissed: %d\tmax misses: %d\n",
             this->name.c_str(),
             this->hw_addr.strrepr().c_str(),
+            this->present() ? "present" : "absent",
             this->count,
             this->max_misses
            );
