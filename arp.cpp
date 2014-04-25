@@ -39,7 +39,7 @@ arp::arp() {
  * re-load the table from the kernel.
  **/
 const char* arp::find_ip_addr(const char* hw_addr) {
-    for (int i=0; i<entries.size(); i++) {
+    for (size_t i=0; i<entries.size(); i++) {
         if (entries[i].has_hw_addr(hw_addr))
             return entries[i].get_ip_addr();
     }
@@ -93,6 +93,6 @@ cleanup:
  **/
 void arp::dump(int fd) {
     dprintf(fd, "ARP table\n");
-    for (int i=0; i < this->entries.size(); i++)
+    for (size_t i=0; i < this->entries.size(); i++)
         dprintf(fd, "%s\t%s\n", this->entries[i].get_ip_addr(),this->entries[i].get_hw_addr());
 }

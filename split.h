@@ -24,7 +24,7 @@
 #include <vector>
 #include <string>
 
-std::vector<std::string> split(const std::string & t, char s, int l);
-std::vector<std::string> split(std::istream & t, char s, int l);
+std::vector<std::string> split(const std::string & t, char s, size_t l);
+std::vector<std::string> split(std::istream & t, char s, size_t l);
 
 #endif

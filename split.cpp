@@ -38,7 +38,7 @@ using namespace std;
  * The vector will always contain at least l items, if the string
  * doesn't have enough to fill, they will be empty strings.
  **/
-vector<string> split(istream & t, char s, int l) {
+vector<string> split(istream & t, char s, size_t l) {
     string token;
     vector<string> tokens;
 
@@ -51,7 +51,7 @@ vector<string> split(istream & t, char s, int l) {
     return tokens;
 }
 
-vector<string> split(const string & t, char s, int l) {
+vector<string> split(const string & t, char s, size_t l) {
     istringstream streamed(t);
     return split(streamed,s,l);
 }

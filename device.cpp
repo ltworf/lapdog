@@ -57,7 +57,7 @@ device::device(const char* conffile, const char* name) {
 
     vector<string> lines = split(is,'\n',0);
 
-    for (int i=0; i<lines.size(); i++) {
+    for (size_t i=0; i<lines.size(); i++) {
         std::string line = lines[i];
 
         if (line[0] == '#')
@@ -116,7 +116,7 @@ const char *device::get_hw_addr() {
  **/
 void device::missed() {
     if (this->count == this->max_misses) {
-        syslog(LOG_INFO, "%s disappeared, running action", hw_addr);
+        syslog(LOG_INFO, "%s disappeared, running action", hw_addr->strrepr().c_str());
         advsystem(uid, gid, on_disappear_action.c_str());
         this->count ++;
     } else if (this->count < this->max_misses) {

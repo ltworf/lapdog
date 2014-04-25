@@ -72,7 +72,7 @@ uint64_t hwaddr::hwtoi(const std::string& hw_addr) {
     vector<string> bytes = split(hw_addr,':',6);
     uint64_t addr =0;
 
-    for (int i =0; i<bytes.size(); i++) {
+    for (size_t i =0; i<bytes.size(); i++) {
         if (bytes[i].size() !=2)
             return 0;
 

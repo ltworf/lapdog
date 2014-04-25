@@ -84,7 +84,7 @@ void devices::ping_all() {
     bool net_scan_needed = false;
 
     //Prepare the list of hosts to ping
-    for (int i=0; i<this->devices_list.size(); i++) {
+    for (size_t i=0; i<this->devices_list.size(); i++) {
         const char* ip = this->arp_table->find_ip_addr(this->devices_list[i].get_hw_addr());
 
         if (ip == NULL) {
@@ -126,13 +126,12 @@ void devices::ping_all() {
         this->arp_table->rescan();
     }
 
-cleanup:
     ping_destroy(pinger);
 }
 
 void devices::dump(int fd) {
     dprintf(fd, "Configured devices\n");
-    for (int i = 0; i < this->devices_list.size(); i++)
+    for (size_t i = 0; i < this->devices_list.size(); i++)
         this->devices_list[i].dump(fd);
 }
 
