@@ -22,20 +22,12 @@
 #include "arp_table_entry.h"
 
 arp_table_entry::arp_table_entry(const char* ip_addr,const char* hw_addr) {
-    this->hw_addr = new hwaddr(hw_addr);
+    this->hw_addr.set_hwaddr(hw_addr);
     strncpy(this->ip_addr,ip_addr,sizeof(this->ip_addr));
 }
 
-arp_table_entry::~arp_table_entry() {
-//     if (this->hw_addr!=NULL)
-//         delete this->hw_addr;
-    //FIXME     delete this->hw_addr;
-    //This causes a crash, for some unknown reason, but it's also a memory leak
-}
-
-
 bool arp_table_entry::has_hw_addr(const char* hw_addr) {
-    return this->hw_addr->is_equal(hw_addr);
+    return this->hw_addr.is_equal(hw_addr);
 }
 
 const char* arp_table_entry::get_ip_addr() {
@@ -43,5 +35,5 @@ const char* arp_table_entry::get_ip_addr() {
 }
 
 const char *arp_table_entry::get_hw_addr() {
-    return this->hw_addr->strrepr().c_str();
+    return this->hw_addr.strrepr().c_str();
 }

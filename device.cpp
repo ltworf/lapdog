@@ -71,7 +71,7 @@ device::device(const char* conffile, const char* name) {
         string value = key_value[1];
 
         if (key=="hw") {
-            this->hw_addr = new hwaddr(value);
+            this->hw_addr.set_hwaddr(value);
         } else if (key=="on_appear_action") {
             this->on_appear_action = value;
         } else if (key=="on_disappear_action") {
@@ -92,23 +92,17 @@ device::device(const char* conffile, const char* name) {
     }
 
     //check that hw_addr was set
-    if (this->hw_addr[0] == 0) {
+    if (this->hw_addr == 0) {
         syslog(LOG_ERR,"hw key missing");
         exit(1);
     }
 }
 
-device::~device() {
-//     if (hw_addr!=NULL)
-//         delete hw_addr;
-}
-
-
 /**
  * Return the hw_address associated
  **/
 const char *device::get_hw_addr() {
-    return this->hw_addr->strrepr().c_str();
+    return this->hw_addr.strrepr().c_str();
 }
 
 /**
@@ -116,7 +110,7 @@ const char *device::get_hw_addr() {
  **/
 void device::missed() {
     if (this->count == this->max_misses) {
-        syslog(LOG_INFO, "%s disappeared, running action", hw_addr->strrepr().c_str());
+        syslog(LOG_INFO, "%s disappeared, running action", hw_addr.strrepr().c_str());
         advsystem(uid, gid, on_disappear_action.c_str());
         this->count ++;
     } else if (this->count < this->max_misses) {
@@ -129,7 +123,7 @@ void device::missed() {
  **/
 void device::responded() {
     if (this->count == this->max_misses+1) {
-        syslog(LOG_INFO, "%s appeared, running action", hw_addr->strrepr().c_str());
+        syslog(LOG_INFO, "%s appeared, running action", hw_addr.strrepr().c_str());
         advsystem(uid, gid, on_appear_action.c_str());
     }
     this->count = 0;
@@ -142,7 +136,7 @@ void device::dump(int fd) {
     dprintf(fd,
             "%s (%s)\tmissed: %d\tmax misses: %d\n",
             this->name.c_str(),
-            this->hw_addr->strrepr().c_str(),
+            this->hw_addr.strrepr().c_str(),
             this->count,
             this->max_misses
            );

@@ -28,7 +28,6 @@
 class device {
 public:
     device(const char* conffile, const char* name);
-    ~device();
     const char * get_hw_addr();
     void missed();
     void responded();
@@ -41,7 +40,7 @@ private:
     int max_misses;
     int uid;
     int gid;
-    hwaddr *hw_addr=NULL;
+    hwaddr hw_addr;
     configuration *config;
 };
 

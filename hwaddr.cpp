@@ -25,25 +25,26 @@
 
 using namespace std;
 
-hwaddr::hwaddr(std::string& hw_addr) {
+void hwaddr::set_hwaddr(std::string& hw_addr) {
     addr = hwtoi(hw_addr);
 }
 
 
-hwaddr::hwaddr(const char *hw_addr) {
+void hwaddr::set_hwaddr(const char *hw_addr) {
     string s=string(hw_addr);
     addr = hwtoi(s);
 }
+
 
 bool hwaddr::is_equal(const char *hw_addr) {
     string s=string(hw_addr);
     return addr== hwtoi(s);
 }
 
+
 bool hwaddr::is_equal(const std::string hw_addr) {
     return addr == hwtoi(hw_addr);
 }
-
 
 
 /**
@@ -67,7 +68,10 @@ string hwaddr::strrepr() {
     return string(dest);
 }
 
-
+/**
+ * Returns the integer representation of a HW address in
+ * string format.
+ **/
 uint64_t hwaddr::hwtoi(const std::string& hw_addr) {
     vector<string> bytes = split(hw_addr,':',6);
     uint64_t addr =0;
@@ -86,4 +90,9 @@ uint64_t hwaddr::hwtoi(const std::string& hw_addr) {
 
 bool hwaddr::operator==(const hwaddr &other) {
     return addr == other.addr;
+}
+
+
+bool hwaddr::operator==(const uint64_t &other) {
+    return addr == other;
 }
