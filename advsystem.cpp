@@ -20,11 +20,44 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <string>
 #include <string.h>
 #include <syslog.h>
 #include <unistd.h>
+#include <vector>
 
 #include "advsystem.h"
+#include "devices.h"
+
+using namespace std;
+
+/**
+ * Creates a string like:
+ *
+ * "alias router=true \n alias phone=false"
+ * depending on the status of the devices
+ **/
+string create_aliases() {
+    devices * devs = devices::getinstance();
+
+    vector<bool> present = devs->present();
+    vector<string> names = devs->names();
+
+    string result;
+
+    for (size_t i = 0; i < present.size(); i++ ) {
+        result += "alias \"" + names[i] + "\"=";
+
+        if (present[i])
+            result += "true";
+        else
+            result += "false";
+        result += "\n";
+    }
+
+    return result;
+}
+
 
 /**
  * Same as system(3) but detaches and changes the uid
@@ -57,7 +90,10 @@ void advsystem(int uid, int gid, const char* command) {
         if (pid==0) {
             exit(0);
         } else {
-            system(command);
+            //Generate aliases
+            string cmd = create_aliases() + string(command);
+            syslog(LOG_DEBUG, "Running command %s",cmd.c_str());
+            system(cmd.c_str());
             exit(0);
         }
 
