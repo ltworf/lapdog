@@ -29,7 +29,7 @@
 #include "devices.h"
 #include "main.h"
 
-devices devs;
+devices *devs = devices::getinstance();
 
 unsigned int signals = 0;
 
@@ -42,7 +42,7 @@ void dump_signal(int _) {
 }
 
 void dump_status() {
-    devs.dump(1);
+    devs->dump(1);
 
     int fd = open(CONF_STATUS_DUMP_FILE, O_WRONLY | O_CREAT, S_IRUSR | S_IRGRP | S_IROTH);
     if (fd == -1) {
@@ -50,7 +50,7 @@ void dump_status() {
         return;
     }
 
-    devs.dump(fd);
+    devs->dump(fd);
     close(fd);
 }
 
@@ -68,11 +68,11 @@ int main(int argc, char **argv) {
         //Check the mask for signals occurred
         if (signals_occurred != 0) {
             if (signals_occurred & SIGL_RELOAD)
-                devs.load_config();
+                devs->load_config();
             if (signals_occurred & SIGL_DUMP)
                 dump_status();
         } else
-            devs.ping_all();
+            devs->ping_all();
     }
 
     return 0;

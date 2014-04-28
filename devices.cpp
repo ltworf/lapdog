@@ -31,6 +31,33 @@
 
 using namespace std;
 
+devices *devices::getinstance() {
+    static devices* i = new devices();
+    return i;
+}
+
+vector<string> devices::names() {
+
+    vector<string> result;
+
+    for (size_t i=0; i< devices_list.size();i++) {
+        result.push_back(devices_list[i].device_name());
+    }
+
+    return result;
+}
+
+vector< bool > devices::present() {
+    vector<bool> result;
+
+    for (size_t i=0; i< devices_list.size();i++) {
+        result.push_back(devices_list[i].present());
+    }
+
+    return result;
+}
+
+
 
 devices::devices() {
     this->config = configuration::getconfig();
@@ -46,8 +73,6 @@ devices::devices() {
 devices::~devices() {
     delete this->ping_scanner;
     delete this->arp_table;
-
-    //TODO delete the devices
 }
 
 void devices::load_config() {

@@ -30,12 +30,15 @@
 
 class devices {
 public:
-    devices();
-    ~devices();
+    static devices * getinstance();
+    std::vector<bool> present();
+    std::vector<std::string> names();
     void ping_all();
     void load_config();
     void dump(int fd);
 private:
+    devices();
+    ~devices();
     void rescan();
     configuration *config;
     std::vector<device> devices_list;

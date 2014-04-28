@@ -140,6 +140,15 @@ bool device::present() {
     return this->count < this->max_misses;
 }
 
+/**
+ * Returns the name assigned to the device in the configuration
+ *
+ * The name is assigned by the name of the file
+ **/
+string device::device_name() {
+    return this->name;
+}
+
 
 /**
  * Prints the status on the given file descriptor

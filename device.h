@@ -29,6 +29,7 @@ class device {
 public:
     device(const char* conffile, const char* name);
     const char * get_hw_addr();
+    std::string device_name();
     void missed();
     void responded();
     void dump(int fd);
