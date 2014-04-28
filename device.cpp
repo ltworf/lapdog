@@ -110,7 +110,7 @@ const char *device::get_hw_addr() {
  **/
 void device::missed() {
     if (this->count == this->max_misses) {
-        syslog(LOG_INFO, "%s disappeared, running action", hw_addr.strrepr().c_str());
+        syslog(LOG_INFO, "%s (%s) disappeared, running action", name.c_str(), hw_addr.strrepr().c_str());
         advsystem(uid, gid, on_disappear_action.c_str());
         this->count ++;
     } else if (this->count < this->max_misses) {
@@ -123,7 +123,7 @@ void device::missed() {
  **/
 void device::responded() {
     if (this->count == this->max_misses+1) {
-        syslog(LOG_INFO, "%s appeared, running action", hw_addr.strrepr().c_str());
+        syslog(LOG_INFO, "%s (%s) appeared, running action", name.c_str(), hw_addr.strrepr().c_str());
         advsystem(uid, gid, on_appear_action.c_str());
     }
     this->count = 0;
