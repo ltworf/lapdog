@@ -1,0 +1,22 @@
+#!/bin/sh
+
+
+NAME=lapdog
+DAEMON=/usr/sbin/$NAME
+PIDFILE=/run/$NAME.pid
+
+. /lib/lsb/init-functions
+
+
+status_of_proc -p "$PIDFILE" "$DAEMON"
+R=$?
+if test "$R" = "0" ; then
+    rm -f /run/lapdog.dump
+    kill -10 $(cat "$PIDFILE")
+    for i in `seq 5`
+    do
+        test -e /run/lapdog.dump && cat /run/lapdog.dump && rm /run/lapdog.dump && break
+        sleep 0.1
+    done
+fi
+exit $R

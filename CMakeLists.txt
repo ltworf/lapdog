@@ -9,3 +9,4 @@ SET(CMAKE_CXX_FLAGS "-std=c++0x")
 
 install(TARGETS lapdog RUNTIME DESTINATION /usr/sbin/)
 install(PROGRAMS init/lapdog DESTINATION /etc/init.d/)
+install(PROGRAMS scripts/lapdog-status DESTINATION /usr/sbin/)
