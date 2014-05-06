@@ -42,6 +42,11 @@ void hwaddr::set_hwaddr(std::string& hw_addr) {
 
 
 void hwaddr::set_hwaddr(const char *hw_addr) {
+    if (addr_set) {
+        //FIXME Log the problem
+        abort();
+    }
+    addr_set = true;
     string s=string(hw_addr);
     addr = hwtoi(s);
 }
