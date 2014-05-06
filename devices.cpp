@@ -40,7 +40,7 @@ vector<string> devices::names() {
 
     vector<string> result;
 
-    for (size_t i=0; i< devices_list.size();i++) {
+    for (size_t i=0; i< devices_list.size(); i++) {
         result.push_back(devices_list[i].device_name());
     }
 
@@ -50,7 +50,7 @@ vector<string> devices::names() {
 vector< bool > devices::present() {
     vector<bool> result;
 
-    for (size_t i=0; i< devices_list.size();i++) {
+    for (size_t i=0; i< devices_list.size(); i++) {
         result.push_back(devices_list[i].present());
     }
 
