@@ -38,6 +38,7 @@ configuration::configuration() {
 
     std::filebuf fb;
     if (not fb.open(CONF_FILE, std::ios::in)) {
+        //TODO log an error
         return;
     }
     syslog(LOG_INFO, "Loading configuration from " CONF_FILE);
