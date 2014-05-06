@@ -28,6 +28,7 @@
 #include "devices.h"
 
 #include <iostream>
+#include <queue>
 
 using namespace std;
 
@@ -108,16 +109,23 @@ void devices::ping_all() {
 
     bool net_scan_needed = false;
 
+    /* Used to match indexes in the devices_list with the order of the ping results.
+    The order might not be the same if some devices are not in the ARP table and are
+    not pinged */
+    queue<size_t> corresponding_index;
+
     //Prepare the list of hosts to ping
     for (size_t i=0; i<this->devices_list.size(); i++) {
         const char* ip = this->arp_table->find_ip_addr(this->devices_list[i].get_hw_addr());
 
         if (ip == NULL) {
+            //TODO Do i really want this?
             devices_list[i].missed();
             net_scan_needed = true;
             continue;
         }
 
+        corresponding_index.push(i);
         ping_host_add(pinger,ip);
     }
 
@@ -126,13 +134,14 @@ void devices::ping_all() {
 
     //Check the replies
 
-    int c = 0;
     for (pingobj_iter_t *iter = ping_iterator_get (pinger);
             iter != NULL;
             iter = ping_iterator_next(iter)) {
 
         double latency;
         size_t latency_size = sizeof(latency);
+        int c = corresponding_index.front();
+        corresponding_index.pop();
 
 
         ping_iterator_get_info(iter,PING_INFO_LATENCY,&latency,&latency_size);
@@ -143,7 +152,6 @@ void devices::ping_all() {
             devices_list[c].missed();
             net_scan_needed = true;
         }
-        c++;
     }
 
     if (net_scan_needed) {
