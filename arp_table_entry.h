@@ -25,7 +25,7 @@
 class arp_table_entry {
 public:
     arp_table_entry(const char* ip_addr,const char* hw_addr);
-    bool has_hw_addr(const char* hw_addr);
+    bool has_hw_addr(const hwaddr &hw_addr);
     const char* get_ip_addr();
     const char* get_hw_addr();
 private:

@@ -92,7 +92,7 @@ device::device(const char* conffile, const char* name) {
     }
 
     //check that hw_addr was set
-    if (this->hw_addr == 0) {
+    if (!this->hw_addr.is_set()) {
         syslog(LOG_ERR,"hw key missing");
         exit(1);
     }
@@ -101,9 +101,10 @@ device::device(const char* conffile, const char* name) {
 /**
  * Return the hw_address associated
  **/
-const char *device::get_hw_addr() {
-    return this->hw_addr.strrepr().c_str();
+const hwaddr device::get_hw_addr() {
+    return this->hw_addr;
 }
+
 
 /**
  * The device just missed a ping

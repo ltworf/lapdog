@@ -28,11 +28,12 @@ public:
     void set_hwaddr(std::string& hw_addr);
     void set_hwaddr(const char* hw_addr);
     bool operator==(const hwaddr &other);
-    bool operator==(const uint64_t &other);
     bool is_equal(const char* hw_addr);
     bool is_equal(const std::string hw_addr);
+    bool is_set();
     std::string strrepr();
 private:
+    bool addr_set = false;
     uint64_t addr=0;
     uint64_t hwtoi(const std::string& hw_addr);
 };

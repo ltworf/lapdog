@@ -25,7 +25,18 @@
 
 using namespace std;
 
+/**
+ * Sets the address.
+ *
+ * It can only be set once per object, further
+ * set will cause abort.
+ **/
 void hwaddr::set_hwaddr(std::string& hw_addr) {
+    if (addr_set) {
+        //FIXME Log the problem
+        abort();
+    }
+    addr_set = true;
     addr = hwtoi(hw_addr);
 }
 
@@ -44,6 +55,15 @@ bool hwaddr::is_equal(const char *hw_addr) {
 
 bool hwaddr::is_equal(const std::string hw_addr) {
     return addr == hwtoi(hw_addr);
+}
+
+
+/**
+ * Returns true if an hwaddr has been set for this
+ * object
+ **/
+bool hwaddr::is_set() {
+    return addr_set;
 }
 
 
@@ -92,7 +112,3 @@ bool hwaddr::operator==(const hwaddr &other) {
     return addr == other.addr;
 }
 
-
-bool hwaddr::operator==(const uint64_t &other) {
-    return addr == other;
-}

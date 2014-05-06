@@ -22,6 +22,8 @@
 
 #include <vector>
 
+#include "hwaddr.h"
+
 #include "arp_table_entry.h"
 
 #define ARP_TABLE_FILE "/proc/net/arp"
@@ -30,7 +32,7 @@ class arp {
 public:
     arp();
     void rescan();
-    const char* find_ip_addr(const char* hw_addr);
+    const char* find_ip_addr(const hwaddr &hw_addr);
     void dump(int fd);
 private:
     std::vector<arp_table_entry> entries;

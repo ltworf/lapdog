@@ -26,8 +26,8 @@ arp_table_entry::arp_table_entry(const char* ip_addr,const char* hw_addr) {
     strncpy(this->ip_addr,ip_addr,sizeof(this->ip_addr));
 }
 
-bool arp_table_entry::has_hw_addr(const char* hw_addr) {
-    return this->hw_addr.is_equal(hw_addr);
+bool arp_table_entry::has_hw_addr(const hwaddr &hw_addr) {
+    return this->hw_addr == hw_addr;
 }
 
 const char* arp_table_entry::get_ip_addr() {
