@@ -46,9 +46,6 @@ device::device(const char* conffile, const char* name) {
 
     this->config = configuration::getconfig();
 
-
-    this->count = 0;
-
     std::filebuf fb;
     if (not fb.open(conffile,std::ios::in)) {
         //TODO failed
