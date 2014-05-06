@@ -1,5 +1,11 @@
 #!/bin/sh
 
+if [ $(whoami) != "root" ]
+then
+  echo "Must be root"
+  exit 1
+fi
+
 
 NAME=lapdog
 DAEMON=/usr/sbin/$NAME
