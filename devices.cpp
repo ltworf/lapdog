@@ -161,8 +161,9 @@ void devices::ping_all() {
         }
     }
 
-    if (net_scan_needed && (has_gateway ? gw_responded : true)) {
-        this->ping_scanner->scan();
+    if (net_scan_needed) {
+        if (has_gateway ? gw_responded : true)
+            this->ping_scanner->scan();
         this->arp_table->rescan();
     }
 
