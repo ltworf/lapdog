@@ -84,6 +84,10 @@ device::device(const char* conffile, const char* name) {
             this->gid = strtol(value.c_str(),NULL,10);
         } else if (key=="user") {
             struct passwd * p = getpwnam(value.c_str());
+            if (p==NULL) {
+                syslog(LOG_ERR,"Can't find uid for user %s", value.c_str());
+                exit(1);
+            }
             this->uid = p->pw_uid;
             this->gid = p->pw_gid;
         } else if (key=="gateway") {
