@@ -39,6 +39,7 @@ public:
 private:
     devices();
     ~devices();
+    bool has_gateway;
     void rescan();
     configuration *config;
     std::vector<device> devices_list;

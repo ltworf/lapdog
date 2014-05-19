@@ -34,6 +34,7 @@ public:
     void responded();
     void dump(int fd);
     bool present();
+    bool is_gateway();
 private:
     std::string on_appear_action;
     std::string on_disappear_action;
@@ -42,6 +43,7 @@ private:
     int max_misses;
     int uid;
     int gid;
+    bool gateway;
     hwaddr hw_addr;
     configuration *config;
 };

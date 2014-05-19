@@ -43,6 +43,7 @@ device::device(const char* conffile, const char* name) {
     this->max_misses = 10;
     this->uid = 0;
     this->gid = 0;
+    this->gateway = false;
 
     this->config = configuration::getconfig();
 
@@ -85,6 +86,8 @@ device::device(const char* conffile, const char* name) {
             struct passwd * p = getpwnam(value.c_str());
             this->uid = p->pw_uid;
             this->gid = p->pw_gid;
+        } else if (key=="gateway") {
+            this->gateway = value == "true";
         }
     }
 
@@ -93,6 +96,10 @@ device::device(const char* conffile, const char* name) {
         syslog(LOG_ERR,"hw key missing");
         exit(1);
     }
+}
+
+bool device::is_gateway() {
+    return this->gateway;
 }
 
 /**
@@ -153,11 +160,12 @@ string device::device_name() {
  **/
 void device::dump(int fd) {
     dprintf(fd,
-            "%s (%s)\t%s\tmissed: %d\tmax misses: %d\n",
+            "%s (%s)\t%s\tmissed: %d\tmax misses: %d\t%c\n",
             this->name.c_str(),
             this->hw_addr.strrepr().c_str(),
             this->present() ? "present" : "absent",
             this->count,
-            this->max_misses
+            this->max_misses,
+            this->gateway ? 'G' : 'D'
            );
 }

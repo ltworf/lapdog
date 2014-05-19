@@ -78,6 +78,8 @@ devices::~devices() {
 
 void devices::load_config() {
 
+    this->has_gateway = false;
+
     devices_list.clear();
 
     // Load devices config
@@ -98,6 +100,8 @@ void devices::load_config() {
 
         device dev = device(fname.c_str(),dir_entry->d_name);
         devices_list.push_back(dev);
+
+        this->has_gateway |= dev.is_gateway();
     }
 
     closedir(confdir);
@@ -106,6 +110,8 @@ void devices::load_config() {
 void devices::ping_all() {
     pingobj_t *pinger;
     pinger = ping_construct();
+
+    bool gw_responded = false;
 
     bool net_scan_needed = false;
 
@@ -143,18 +149,19 @@ void devices::ping_all() {
         int c = corresponding_index.front();
         corresponding_index.pop();
 
-
         ping_iterator_get_info(iter,PING_INFO_LATENCY,&latency,&latency_size);
 
         if (latency > 0) {
             devices_list[c].responded();
+            if (devices_list[c].is_gateway())
+                gw_responded = true;
         } else if (latency < 0) {
             devices_list[c].missed();
             net_scan_needed = true;
         }
     }
 
-    if (net_scan_needed) {
+    if (net_scan_needed && (has_gateway ? gw_responded : true)) {
         this->ping_scanner->scan();
         this->arp_table->rescan();
     }
