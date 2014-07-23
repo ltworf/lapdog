@@ -1,0 +1,10 @@
+[Unit]
+Description=A LAN device presence checker
+
+[Service]
+Type=simple
+PIDFile=/run/lapdog.pid
+ExecStart=/usr/sbin/lapdog
+
+[Install]
+WantedBy=multi-user.target
