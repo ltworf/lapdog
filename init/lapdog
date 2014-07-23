@@ -27,7 +27,7 @@ test -e /etc/default/$NAME && . /etc/default/$NAME
 case "$1" in
     start)
         log_daemon_msg "Starting $NAME" "$NAME"
-        start-stop-daemon --pidfile "$PIDFILE" --start --quiet --background -m --exec "$DAEMON"
+        start-stop-daemon --pidfile "$PIDFILE" --start --quiet --background --exec "$DAEMON"
         log_end_msg $?
         ;;
     stop)
@@ -49,13 +49,7 @@ case "$1" in
         status_of_proc -p "$PIDFILE" "$DAEMON"
         R=$?
         if test "$R" = "0" ; then
-            rm -f /run/lapdog.dump
-            kill -10 $(cat "$PIDFILE")
-            for i in `seq 5`
-            do
-                test -e /run/lapdog.dump && cat /run/lapdog.dump && rm /run/lapdog.dump && break
-                sleep 0.1
-            done
+            "$DAEMON"
         fi
         exit $R
         ;;

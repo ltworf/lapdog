@@ -22,5 +22,8 @@
 
 #define SIGL_RELOAD 1
 #define SIGL_DUMP 2
+#define SIGL_INT 4
+
+#define PIDFILE "/run/lapdog.pid"
 
 #endif
