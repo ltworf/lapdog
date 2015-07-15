@@ -24,6 +24,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <syslog.h>
 #include <unistd.h>
 
@@ -78,7 +79,7 @@ void already_running() {
     //Read the pid
     int fd = open(PIDFILE, O_RDONLY);
     char buffer[128];
-    buffer[127] = 0;
+    memset(buffer, 0, 128);
     int read_amount = read(fd,buffer,sizeof(buffer)-1);
     if (read_amount == sizeof(buffer)-1) {
         syslog(LOG_DEBUG,"Pidfile content too long");
