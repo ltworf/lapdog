@@ -70,6 +70,9 @@ configuration::configuration() {
             std::strcpy (higher_range, value.c_str());
         } else if (key=="sleep_time") {
             sleep_time = strtol(value.c_str(),NULL,10);
+        } else {
+            syslog(LOG_ERR, "Unrecognized key \"%s\" in configuration file" , key.c_str());
+            exit(1);
         }
     }
 

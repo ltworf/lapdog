@@ -92,6 +92,9 @@ device::device(const char* conffile, const char* name) {
             this->gid = p->pw_gid;
         } else if (key=="gateway") {
             this->gateway = value == "true";
+        } else {
+            syslog(LOG_ERR, "Unrecognized key \"%s\" in configuration file" , key.c_str());
+            exit(1);
         }
     }
 
