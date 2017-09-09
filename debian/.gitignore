@@ -1,0 +1,6 @@
+lapdog/
+lapdog.postinst.debhelper
+debhelper-build-stamp
+files
+lapdog.substvars
+lapdog.postrm.debhelper
