@@ -31,6 +31,7 @@
 #include "configuration.h"
 #include "devices.h"
 #include "main.h"
+#include "config.h"
 
 devices *devs = devices::getinstance();
 
@@ -138,7 +139,7 @@ void destroy_pidfile() {
 }
 
 int main(int argc, char **argv) {
-
+    syslog(LOG_INFO, "Starting lapdog " LAPDOG_VERSION);
     already_running();
 
     create_pidfile();
