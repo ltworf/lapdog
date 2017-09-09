@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+
+SHELL=sh -e
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+export DH_VERBOSE=1
+
+%:
+	dh $@ --with systemd
