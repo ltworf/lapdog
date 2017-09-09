@@ -1,9 +1,9 @@
 Source: lapdog
-#Section: httpd
+Section: net
 Priority: optional
 Maintainer: Salvo 'LtWorf' Tomaselli <tiposchi@tiscali.it>
 Build-Depends: debhelper (>= 10), cmake, liboping-dev
-Standards-Version: 3.9.8
+Standards-Version: 4.0.1
 Homepage: https://github.com/ltworf/lapdog
 
 Package: lapdog
