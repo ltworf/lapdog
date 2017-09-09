@@ -1,0 +1,34 @@
+#!/bin/sh
+
+./dist
+ARCHIVE=$(ls *.orig.tar.gz)
+
+# Sign the archive
+gpg --sign --armor --detach-sign *.orig.tar.gz
+
+T=$(mktemp -d)
+mv *.orig.tar.gz.asc *.orig.tar.gz $T
+
+cd $T
+tar -xvvf *tar.gz
+cd -
+
+#U=$(mktemp -d)
+#mv $T/*tar.gz $U
+
+UNCOMPRESSED=$(realpath $T/lapdog)
+#mv $U/* $T/
+#mv *.tar.gz* $T/
+
+#rmdir $U
+
+git stash
+git checkout debian
+cp -r debian/ $UNCOMPRESSED/
+git checkout -
+git stash pop
+
+cd $UNCOMPRESSED
+dpkg-buildpackage
+lintian ../*.dsc
+echo $UNCOMPRESSED
