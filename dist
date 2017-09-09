@@ -1,3 +1,0 @@
-#!/bin/sh
-cd ..
-tar -czvvf lapdog/lapdog.tar.gz lapdog/doc/ lapdog/init/ lapdog/*.cpp lapdog/*.h lapdog/LICENSE lapdog/README.md lapdog/CREDITS lapdog/CMakeLists.txt
