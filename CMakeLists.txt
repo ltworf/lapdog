@@ -9,3 +9,6 @@ SET(CMAKE_CXX_FLAGS "-std=c++0x")
 
 install(TARGETS lapdog RUNTIME DESTINATION /usr/sbin/)
 install(PROGRAMS init/lapdog DESTINATION /etc/init.d/)
+install(FILES doc/lapdog.conf DESTINATION etc/ COMPONENT config)
+install(FILES doc/device.conf DESTINATION etc/lapdog/ COMPONENT config)
+install(FILES init/lapdog.service DESTINATION lib/systemd/system/ COMPONENT config)
