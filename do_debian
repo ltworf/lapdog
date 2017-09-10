@@ -1,33 +1,32 @@
 #!/bin/sh
 
+# Create dist file
 ./dist
+
+# Find it
 ARCHIVE=$(ls *.orig.tar.gz)
 
 # Sign the archive
 gpg --sign --armor --detach-sign *.orig.tar.gz
 
+# Extract dist file in temp dir
 T=$(mktemp -d)
 mv *.orig.tar.gz.asc *.orig.tar.gz $T
-
 cd $T
 tar -xvvf *tar.gz
 cd -
 
-#U=$(mktemp -d)
-#mv $T/*tar.gz $U
-
+# Path for source
 UNCOMPRESSED=$(realpath $T/lapdog)
-#mv $U/* $T/
-#mv *.tar.gz* $T/
 
-#rmdir $U
-
+# Copy debian/ directory in the source dir
 git stash
 git checkout debian
 cp -r debian/ $UNCOMPRESSED/
 git checkout -
 git stash pop
 
+# Make debian package
 cd $UNCOMPRESSED
 dpkg-buildpackage
 lintian ../*.dsc
