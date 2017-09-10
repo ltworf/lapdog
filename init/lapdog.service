@@ -5,6 +5,7 @@ Description=A LAN device presence checker
 Type=simple
 PIDFile=/run/lapdog.pid
 ExecStart=/usr/sbin/lapdog
+ExecReload=/bin/kill -HUP $MAINPID
 
 [Install]
 WantedBy=multi-user.target
