@@ -1,6 +1,6 @@
 /*
- * <one line to give the program's name and a brief idea of what it does.>
- * Copyright (C) 2014  Salvo Tomaselli <tiposchi@tiscali.it>
+ * lapdog - take actions on devices (dis)appearance on the LAN
+ * Copyright (C) 2014-2017  Salvo Tomaselli <tiposchi@tiscali.it>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,8 +14,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
+
 #include <cstring>
 #include <fstream>
 #include <iostream>

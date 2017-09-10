@@ -1,6 +1,6 @@
 /*
  * lapdog - take actions on devices (dis)appearance on the LAN
- * Copyright (C) 2014  Salvo Tomaselli <tiposchi@tiscali.it>
+ * Copyright (C) 2014-2017  Salvo Tomaselli <tiposchi@tiscali.it>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 #include <string>
@@ -42,9 +41,9 @@ vector<string> split(istream & t, char s, size_t l) {
     string token;
     vector<string> tokens;
 
-    while ((l>0?tokens.size() < l-1:true) && getline(t,token,s))
+    while ((l > 0 ? tokens.size() < l - 1 : true) && getline(t, token, s))
         tokens.push_back(token);
-    if(getline(t,token,'\0'))
+    if(getline(t, token, '\0'))
         tokens.push_back(token);
     while (tokens.size() < l)
         tokens.push_back(string(""));
@@ -53,5 +52,5 @@ vector<string> split(istream & t, char s, size_t l) {
 
 vector<string> split(const string & t, char s, size_t l) {
     istringstream streamed(t);
-    return split(streamed,s,l);
+    return split(streamed, s, l);
 }

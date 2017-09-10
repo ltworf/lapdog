@@ -1,6 +1,6 @@
 /*
  * lapdog - take actions on devices (dis)appearance on the LAN
- * Copyright (C) 2014  Salvo Tomaselli <tiposchi@tiscali.it>
+ * Copyright (C) 2014-2017  Salvo Tomaselli <tiposchi@tiscali.it>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 #include <sys/socket.h>
@@ -44,7 +43,7 @@ scanner::scanner(char *lower, char *higher) {
     struct in_addr l;
     struct in_addr h;
 
-    if (inet_aton(lower,&l)==0 || inet_aton(higher,&h)==0) {
+    if (inet_aton(lower, &l)==0 || inet_aton(higher, &h)==0) {
         syslog(LOG_ERR,"Invalid address in scan range");
         exit(1);
     }
@@ -65,12 +64,12 @@ void scanner::init_pinger() {
     struct in_addr in;
     char *ip;
 
-    for (uint32_t address = this->range_lower; address<= this->range_higher; address++) {
+    for (uint32_t address = this->range_lower; address <= this->range_higher; address++) {
         in.s_addr = htonl(address);
 
         ip = inet_ntoa(in);
-        if (ping_host_add(this->pinger,ip)!=0) {
-            syslog(LOG_ERR,"%s",ping_get_error(this->pinger));
+        if (ping_host_add(this->pinger, ip) != 0) {
+            syslog(LOG_ERR,"%s", ping_get_error(this->pinger));
             exit(3);
         }
     }

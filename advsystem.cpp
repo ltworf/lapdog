@@ -1,6 +1,6 @@
 /*
  * lapdog - take actions on devices (dis)appearance on the LAN
- * Copyright (C) 2014  Salvo Tomaselli <tiposchi@tiscali.it>
+ * Copyright (C) 2014-2017  Salvo Tomaselli <tiposchi@tiscali.it>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 #include <sys/types.h>
@@ -63,13 +62,13 @@ string create_aliases() {
  * Same as system(3) but detaches and changes the uid
  **/
 void advsystem(int uid, int gid, const char* command) {
-    if (strlen(command)==0)
+    if (strlen(command) == 0)
         return;
 
     int status;
     pid_t pid = fork();
-    if (pid<0) {
-        syslog(LOG_ERR,"Fork failed");
+    if (pid < 0) {
+        syslog(LOG_ERR, "Fork failed");
         return;
     }
 
@@ -77,28 +76,28 @@ void advsystem(int uid, int gid, const char* command) {
         //Child, fork again
 
         if (setuid(uid) != 0 or setgid(gid) != 0) {
-            syslog(LOG_ERR,"Set permissions failed");
+            syslog(LOG_ERR, "Set permissions failed");
             exit(1);
         }
 
         pid = fork();
-        if (pid<0) {
-            syslog(LOG_ERR,"Detach fork failed");
+        if (pid < 0) {
+            syslog(LOG_ERR, "Detach fork failed");
             exit(1);
         }
 
-        if (pid==0) {
+        if (pid == 0) {
             exit(0);
         } else {
             //Generate aliases
             string cmd = create_aliases() + string(command);
-            syslog(LOG_DEBUG, "Running command %s",cmd.c_str());
+            syslog(LOG_DEBUG, "Running command %s", cmd.c_str());
             system(cmd.c_str());
             exit(0);
         }
 
     }
     if (pid != 0) { //Father, wait for child to detach
-        waitpid(pid,&status,0);
+        waitpid(pid, &status, 0);
     }
 }

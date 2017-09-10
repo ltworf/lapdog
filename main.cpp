@@ -1,6 +1,6 @@
 /*
  * lapdog - take actions on devices (dis)appearance on the LAN
- * Copyright (C) 2014  Salvo Tomaselli <tiposchi@tiscali.it>
+ * Copyright (C) 2014-2017  Salvo Tomaselli <tiposchi@tiscali.it>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 #include <sys/stat.h>
@@ -38,15 +37,15 @@ devices *devs = devices::getinstance();
 unsigned int signals = 0;
 
 void reload_signal(int _) {
-    __sync_fetch_and_or(&signals,SIGL_RELOAD);
+    __sync_fetch_and_or(&signals, SIGL_RELOAD);
 }
 
 void dump_signal(int _) {
-    __sync_fetch_and_or(&signals,SIGL_DUMP);
+    __sync_fetch_and_or(&signals, SIGL_DUMP);
 }
 
 void int_signal(int _) {
-    __sync_fetch_and_or(&signals,SIGL_INT);
+    __sync_fetch_and_or(&signals, SIGL_INT);
 }
 
 void dump_status() {
@@ -81,8 +80,8 @@ void already_running() {
     int fd = open(PIDFILE, O_RDONLY);
     char buffer[128];
     memset(buffer, 0, 128);
-    int read_amount = read(fd,buffer,sizeof(buffer)-1);
-    if (read_amount == sizeof(buffer)-1) {
+    int read_amount = read(fd, buffer, sizeof(buffer) - 1);
+    if (read_amount == sizeof(buffer) - 1) {
         syslog(LOG_DEBUG,"Pidfile content too long");
         exit(1);
     }
@@ -113,7 +112,7 @@ void already_running() {
     //Print the dumpfile
     fd = open(CONF_STATUS_DUMP_FILE, O_RDONLY);
 
-    while ((read_amount = read(fd,buffer,sizeof(buffer)-1)) != 0)
+    while ((read_amount = read(fd, buffer, sizeof(buffer) - 1)) != 0)
         write(1, buffer, read_amount);
 
     close(fd);
@@ -122,7 +121,7 @@ void already_running() {
 }
 
 void create_pidfile() {
-    int fd = open(PIDFILE, O_CREAT|O_WRONLY, 0444);
+    int fd = open(PIDFILE, O_CREAT | O_WRONLY, 0444);
 
     if (fd == -1) {
         syslog(LOG_ERR,"Unable to create pidfile " PIDFILE);
@@ -154,7 +153,7 @@ int main(int argc, char **argv) {
     while(true) {
         sleep(config->sleep_time);
 
-        unsigned int signals_occurred = __sync_fetch_and_and(&signals,0);
+        unsigned int signals_occurred = __sync_fetch_and_and(&signals, 0);
 
         //Check the mask for signals occurred
         if (signals_occurred != 0) {
@@ -166,7 +165,6 @@ int main(int argc, char **argv) {
                 destroy_pidfile();
                 exit(0);
             }
-
         } else
             devs->ping_all();
     }
