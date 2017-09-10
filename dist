@@ -1,4 +1,8 @@
 #!/bin/sh
 VERSION=$(cat CMakeLists.txt | grep LAPDOG_VERSION | cut -d\  -f3 | cut -d\) -f1)
 cd ..
-tar -czvvf lapdog/lapdog_$VERSION.orig.tar.gz lapdog/doc/ lapdog/init/ lapdog/*.cpp lapdog/*.h lapdog/*.h.in lapdog/LICENSE lapdog/README.md lapdog/CREDITS lapdog/CMakeLists.txt
+tar -czvvf lapdog/lapdog_$VERSION.orig.tar.gz \
+    lapdog/doc/ lapdog/init/ \
+    lapdog/*.cpp lapdog/*.h lapdog/*.h.in \
+    lapdog/LICENSE lapdog/README.md lapdog/CREDITS \
+    lapdog/CHANGELOG lapdog/CMakeLists.txt
