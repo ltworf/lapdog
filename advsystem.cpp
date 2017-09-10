@@ -75,8 +75,12 @@ void advsystem(int uid, int gid, const char* command) {
     if (pid == 0) {
         //Child, fork again
 
-        if (setuid(uid) != 0 or setgid(gid) != 0) {
-            syslog(LOG_ERR, "Set permissions failed");
+        if (setuid(uid) != 0) {
+            syslog(LOG_ERR, "Set uid to %d failed. Not running: %s", uid, command);
+            exit(1);
+        }
+        if (setgid(gid) != 0) {
+            syslog(LOG_ERR, "Set gid to %d failed. Not running: %s", gid, command);
             exit(1);
         }
 
