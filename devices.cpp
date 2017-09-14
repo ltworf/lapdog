@@ -95,9 +95,9 @@ void devices::load_config() {
         if (dir_entry->d_name[0] == '.')
             continue;
         std::string fname = std::string(config->confdir) + std::string("/") + std::string(dir_entry->d_name);
-        syslog(LOG_INFO,"Loading configuration from %s", fname.c_str());
+        syslog(LOG_INFO, "Loading configuration from %s", fname.c_str());
 
-        device dev = device(fname.c_str(),dir_entry->d_name);
+        device dev = device(fname.c_str(), dir_entry->d_name);
         devices_list.push_back(dev);
 
         this->has_gateway |= dev.is_gateway();
