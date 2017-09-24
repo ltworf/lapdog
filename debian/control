@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Salvo 'LtWorf' Tomaselli <tiposchi@tiscali.it>
 Build-Depends: debhelper (>= 10), cmake, liboping-dev
-Standards-Version: 4.0.1
+Standards-Version: 4.1.0
 Homepage: https://github.com/ltworf/lapdog
 
 Package: lapdog
