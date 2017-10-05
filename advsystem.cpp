@@ -74,7 +74,10 @@ void advsystem(int uid, int gid, const char* command) {
 
     if (pid == 0) {
         //Child, fork again
-
+        if (setgroups(0, NULL) == -1) {
+            syslog(LOG_ERR, "Removing groups failed. Not running: %s", command);
+            exit(1);
+        }
         if (setuid(uid) != 0) {
             syslog(LOG_ERR, "Set uid to %d failed. Not running: %s", uid, command);
             exit(1);
