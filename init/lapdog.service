@@ -1,5 +1,6 @@
 [Unit]
 Description=A LAN device presence checker
+Documentation=https://github.com/ltworf/lapdog#lapdog
 
 [Service]
 Type=simple
