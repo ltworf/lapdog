@@ -19,7 +19,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(lapdog)
 
-set (LAPDOG_VERSION 1.0)
+set (LAPDOG_VERSION 1.1)
 # configure a header file to pass some of the CMake settings
 # to the source code
 configure_file (
