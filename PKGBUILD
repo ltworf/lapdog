@@ -2,7 +2,7 @@
 # Contributor: kpj <kpjkpjkpjkpjkpjkpj@gmail.com>
 
 pkgname=lapdog
-pkgver=1.0
+pkgver=1.1
 pkgrel=1
 pkgdesc='Take actions when specific devices appear/disappear from your LAN'
 arch=('i686' 'x86_64')
