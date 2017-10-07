@@ -9,9 +9,12 @@ Homepage: https://github.com/ltworf/lapdog
 Package: lapdog
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base
-Description: Take actions when specific devices appear/disappear from your LAN.
+Description: Take actions when specific devices appear/disappear from your LAN
  lapdog is a service that monitors the presence/absence of the devices on your
  LAN and executes some actions accordingly.
  .
  It pings the devices to discover if they are connected or not. And uses their
  MAC address and not their IP, so it works on networks with DHCP.
+ .
+ It can be configured to work only with certain gateways, so it can be used on
+ laptops or other devices that change networks.
