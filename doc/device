@@ -55,7 +55,7 @@ on_disappear_action=echo "GONE" > /tmp/device_status
 # uid=1001
 
 # user to use to run the commands, conflicts with uid, don't use both
-user=ltworf
+# user=ltworf
 
 
 # Uncomment to mark the device as gateway.
