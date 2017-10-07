@@ -18,6 +18,7 @@
 
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <grp.h>
 #include <stdlib.h>
 #include <string>
 #include <string.h>
