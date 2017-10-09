@@ -29,5 +29,5 @@ git stash pop
 # Make debian package
 cd $UNCOMPRESSED
 dpkg-buildpackage
-lintian --pedantic -E --color auto -i -I ../*.dsc
+lintian --pedantic -E --color auto -i -I ../*.changes
 echo $UNCOMPRESSED
