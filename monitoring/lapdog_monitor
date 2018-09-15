@@ -30,6 +30,7 @@ Device = NamedTuple('Device', [
     ('name', str),
     ('misses', int),
     ('present', bool),
+    ('arp', bool),
 ])
 
 
@@ -64,12 +65,13 @@ def parsedump() -> List[Device]:
     with open(DUMPFILE) as f:
         f.readline() # Discard 1st line
         for line in f:
-            name, mac, status, misses, maxmisses, type = line.strip().split('\t')
+            name, mac, status, misses, maxmisses, type_, arp = line.strip().split('\t')
             name = name.replace('.conf', '')
             r.append(Device(
                 name=name,
                 misses=int(misses.split(': ')[1]),
                 present=status == 'present',
+                arp=arp.endswith('yes')
             ))
     return r
 
