@@ -1,6 +1,6 @@
 /*
  * lapdog - take actions on devices (dis)appearance on the LAN
- * Copyright (C) 2014-2017  Salvo Tomaselli <tiposchi@tiscali.it>
+ * Copyright (C) 2014-2018  Salvo Tomaselli <tiposchi@tiscali.it>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
