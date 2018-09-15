@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <syslog.h>
+#include <time.h>
 #include <unistd.h>
 
 #include "configuration.h"
@@ -150,12 +151,17 @@ int main(int argc, char **argv) {
     signal(SIGINT, int_signal);
     signal(SIGTERM, int_signal);
 
+    time_t last_ping_all = 0;
     while(true) {
         sleep(config->sleep_time);
 
-        unsigned int signals_occurred = __sync_fetch_and_and(&signals, 0);
+        if (time(NULL) - last_ping_all >= config->sleep_time) {
+            devs->ping_all();
+            last_ping_all = time(NULL);
+        }
 
         //Check the mask for signals occurred
+        unsigned int signals_occurred = __sync_fetch_and_and(&signals, 0);
         if (signals_occurred != 0) {
             if (signals_occurred & SIGL_RELOAD)
                 devs->load_config();
@@ -165,8 +171,7 @@ int main(int argc, char **argv) {
                 destroy_pidfile();
                 exit(0);
             }
-        } else
-            devs->ping_all();
+        }
     }
 
     return 0;
