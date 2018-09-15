@@ -48,7 +48,10 @@ def killall(proc: bytes, signal: int) -> None:
             pass
 
 def getdump():
-    unlink(DUMPFILE)
+    try:
+        unlink(DUMPFILE)
+    except:
+        pass
 
     killall(b'/usr/sbin/lapdog', SIGUSR1)
 
