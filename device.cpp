@@ -173,7 +173,7 @@ void device::dump(int fd) {
             this->count,
             this->max_misses,
             this->gateway ? 'G' : 'D',
-            this->is_in_arp_table ? 'yes': 'no'
+            this->is_in_arp_table ? "yes": "no"
            );
 }
 
