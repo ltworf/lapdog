@@ -166,7 +166,7 @@ string device::device_name() {
  **/
 void device::dump(int fd) {
     dprintf(fd,
-            "%s (%s)\t%s\tmissed: %d\tmax misses: %d\t%c\n",
+            "%s\t%s\t%s\tmissed: %d\tmax misses: %d\t%c\n",
             this->name.c_str(),
             this->hw_addr.strrepr().c_str(),
             this->present() ? "present" : "absent",
