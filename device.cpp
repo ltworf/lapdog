@@ -166,12 +166,26 @@ string device::device_name() {
  **/
 void device::dump(int fd) {
     dprintf(fd,
-            "%s\t%s\t%s\tmissed: %d\tmax misses: %d\t%c\n",
+            "%s\t%s\t%s\tmissed: %d\tmax misses: %d\t%c\tARP entry: %s\n",
             this->name.c_str(),
             this->hw_addr.strrepr().c_str(),
             this->present() ? "present" : "absent",
             this->count,
             this->max_misses,
-            this->gateway ? 'G' : 'D'
+            this->gateway ? 'G' : 'D',
+            this->is_in_arp_table ? 'yes': 'no',
            );
+}
+
+/**
+ * @brief Marks the device as being present or not in the ARP table
+ *
+ * Some devices do not repspond to ping, but their presence in the ARP
+ * table indicates that they are online.
+ *
+ * This information is only used for the status.
+ * @param value
+ */
+void device::in_arp_table(bool value) {
+    this->is_in_arp_table = value;
 }

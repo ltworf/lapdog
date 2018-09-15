@@ -31,6 +31,7 @@ public:
     std::string device_name();
     void missed();
     void responded();
+    void in_arp(bool);
     void dump(int fd);
     bool present();
     bool is_gateway();
@@ -42,6 +43,7 @@ private:
     int max_misses;
     int uid;
     int gid;
+    bool is_in_arp_table;
     bool gateway;
     hwaddr hw_addr;
     configuration *config;

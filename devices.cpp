@@ -123,6 +123,7 @@ void devices::ping_all() {
     for (size_t i=0; i<this->devices_list.size(); i++) {
         const char* ip = this->arp_table->find_ip_addr(this->devices_list[i].get_hw_addr());
 
+        devices_list[i].in_arp(ip != NULL);
         if (ip == NULL) {
             //TODO Do i really want this?
             devices_list[i].missed();
