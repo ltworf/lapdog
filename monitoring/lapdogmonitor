@@ -1,0 +1,12 @@
+service zebrasrv
+{
+socket_type = stream
+wait = no
+user = root
+instances = 1
+server = /usr/local/sbin/lapdog_monitor
+server_args = -T
+port = 2600
+cps = 100 4
+flags = IPv4
+}

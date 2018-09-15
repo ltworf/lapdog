@@ -1,0 +1,91 @@
+#!/usr/bin/python3
+# lapdog - take actions on devices (dis)appearance on the LAN
+# Copyright (C) 2014-2018  Salvo Tomaselli <tiposchi@tiscali.it>
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+from os import unlink, kill, listdir
+from os.path import exists
+from time import sleep
+from typing import List, NamedTuple
+from json import dumps
+from signal import SIGUSR1
+from sys import stdin
+
+import typedload
+
+
+Device = NamedTuple('Device', [
+    ('name', str),
+    ('misses', int),
+    ('present', bool),
+])
+
+
+DUMPFILE='/run/lapdog.dump'
+
+
+def killall(proc: bytes, signal: int) -> None:
+    for i in listdir('/proc'):
+        try:
+            with open('/proc/%s/cmdline' % i, 'rb') as f:
+                procname = f.read().split(b'\0')[0]
+            if procname == proc:
+                kill(int(i), signal)
+        except Exception:
+            pass
+
+def getdump():
+    unlink(DUMPFILE)
+
+    killall(b'/usr/sbin/lapdog', SIGUSR1)
+
+    for i in range(30):
+        if exists(DUMPFILE):
+            return
+        else:
+            sleep(0.1)
+    raise Exception('Dump not found')
+
+
+def parsedump() -> List[Device]:
+    r = []
+    with open(DUMPFILE) as f:
+        f.readline() # Discard 1st line
+        for line in f:
+            name, mac, status, misses, maxmisses, type = line.strip().split('\t')
+            name = name.replace('.conf', '')
+            r.append(Device(
+                name=name,
+                misses=int(misses.split(': ')[1]),
+                present=status == 'present',
+            ))
+    return r
+
+
+def main():
+    getdump()
+    data = parsedump()
+
+    stdin.readline()
+    print('HTTP/1.1 200 Ok\r')
+    print('Server: lapdog_status\r')
+    print('Connection: close\r')
+    print('\r')
+    print(dumps(typedload.dump(data)))
+
+
+if __name__ == '__main__':
+    main()
+
